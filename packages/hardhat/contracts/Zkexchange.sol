@@ -55,6 +55,8 @@ contract Zkexchange is AccessControl {
         bytes32 currency;
         uint256 amountInToken;
         uint256 amountInCurrency;
+        string bankAccount;
+        string bankName;
     }
 
     mapping(uint256 => Order) public _orders;
@@ -69,7 +71,8 @@ contract Zkexchange is AccessControl {
         bytes32 currency,
         uint256 amountInToken,
         uint256 amountInCurrency,
-        bytes signature
+        string bankAccount,
+        string bankName
     );
 
     event OrderAccepted(uint256 indexed orderId, address buyer);
@@ -132,7 +135,7 @@ contract Zkexchange is AccessControl {
         uint256 amountInCurrency,
         bytes32 currency,
         address token,
-        bytes memory signature
+        string memory bankNumber, string memory bankName
     ) external {
         require(_allowedTokens[token].status, "Invalid token");
         require(
@@ -165,6 +168,8 @@ contract Zkexchange is AccessControl {
         order.amountInToken = amountInToken;
         order.amountInCurrency = amountInCurrency;
         order.txStatus = _TransactionState.OPEN;
+        order.bankAccount = bankNumber;
+        order.bankName = bankName;
 
         emit SellOrderPlaced(
             nonce,
@@ -174,7 +179,8 @@ contract Zkexchange is AccessControl {
             currency,
             amountInToken,
             amountInCurrency,
-            signature
+            bankNumber,
+            bankName
         );
 
         _ordersCount++;
