@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
+// import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
 contract Zkexchange is AccessControl {
     bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
@@ -12,7 +12,7 @@ contract Zkexchange is AccessControl {
     bytes32 public constant BUYER_ROLE = keccak256("BUYER_ROLE");
 
     using ECDSA for bytes32;
-    using MessageHashUtils for bytes32;
+    // using MessageHashUtils for bytes32;
 
     address _feeCollectorAddress;
     uint256 _feeDecimal = 10000;

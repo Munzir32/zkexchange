@@ -30,7 +30,7 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  defaultNetwork: "localhost",
+  defaultNetwork: "zksync",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -118,9 +118,17 @@ const config: HardhatUserConfig = {
       url: "https://sepolia.publicgoods.network",
       accounts: [deployerPrivateKey],
     },
-    zksysnc: {
+    zksync: {
       url: "https://sepolia.era.zksync.dev",
       accounts: [deployerPrivateKey],
+    }
+  },
+  zksolc: {
+    version: "latest",
+    settings: {
+      evmVersion: "paris"
+      // find all available options in the official documentation
+      // https://era.zksync.io/docs/tools/hardhat/hardhat-zksync-solc.html#configuration
     },
   },
   // configuration for harhdat-verify plugin
