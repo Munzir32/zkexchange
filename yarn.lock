@@ -2830,6 +2830,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-blockies@npm:^1":
+  version: 1.4.4
+  resolution: "@types/react-blockies@npm:1.4.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: 842f12b6408c25fb73a0aa0c3ea261c97fb1e1fdd0d03da55d8e47ba3d102a2169aa389fd6d0d31a7957e18237e9ccfdbc970e97be36d786f4f013d4a1324006
+  languageName: node
+  linkType: hard
+
 "@types/react-copy-to-clipboard@npm:^5.0.4":
   version: 5.0.7
   resolution: "@types/react-copy-to-clipboard@npm:5.0.7"
@@ -11463,7 +11472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -11638,6 +11647,17 @@ __metadata:
     iconv-lite: 0.4.24
     unpipe: 1.0.0
   checksum: ba1583c8d8a48e8fbb7a873fdbb2df66ea4ff83775421bfe21ee120140949ab048200668c47d9ae3880012f6e217052690628cf679ddfbd82c9fc9358d574676
+  languageName: node
+  linkType: hard
+
+"react-blockies@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "react-blockies@npm:1.4.1"
+  dependencies:
+    prop-types: ^15.5.10
+  peerDependencies:
+    react: ">=15.0.0"
+  checksum: 87139fc2cc682d34ff8633c58ce96f89826cc3127499b623fb1d8c99dd8e1fe21055750a051933ffc500ca9c88aa017930deae963ffc635135c02907e5d75e22
   languageName: node
   linkType: hard
 
@@ -12271,8 +12291,10 @@ __metadata:
   resolution: "se-2@workspace:."
   dependencies:
     "@openzeppelin/contracts": ^5.0.2
+    "@types/react-blockies": ^1
     husky: ^9.1.5
     lint-staged: ~13.2.2
+    react-blockies: ^1.4.1
   languageName: unknown
   linkType: soft
 
