@@ -89,6 +89,8 @@ contract Zkexchange is AccessControl {
         uint256 amount
     );
 
+    event completeOrderEvent(uint256 indexed  orderId);
+
     constructor(address feeCollectorAddress, uint256 fee) {
         _setRoleAdmin(BUYER_ROLE, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(MANAGER_ROLE, DEFAULT_ADMIN_ROLE);
@@ -234,7 +236,9 @@ contract Zkexchange is AccessControl {
             "Order is not accepted"
         );
         order.txStatus = _TransactionState.COMPLETED;
+         emit completeOrderEvent(orderId);
         return uint256(order.txStatus);
+       
     }
 
     function adminReleaseFunds(uint256 orderId) external onlyManager {
