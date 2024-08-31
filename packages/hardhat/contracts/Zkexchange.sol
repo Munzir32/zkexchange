@@ -55,8 +55,6 @@ contract Zkexchange is AccessControl {
         bytes32 currency;
         uint256 amountInToken;
         uint256 amountInCurrency;
-        string bankAccount;
-        string bankName;
     }
 
     mapping(uint256 => Order) public _orders;
@@ -71,8 +69,7 @@ contract Zkexchange is AccessControl {
         bytes32 currency,
         uint256 amountInToken,
         uint256 amountInCurrency,
-        string bankAccount,
-        string bankName
+        bytes signature
     );
 
     event OrderAccepted(uint256 indexed orderId, address buyer);
@@ -88,8 +85,6 @@ contract Zkexchange is AccessControl {
         address seller,
         uint256 amount
     );
-
-    event completeOrderEvent(uint256 indexed  orderId);
 
     constructor(address feeCollectorAddress, uint256 fee) {
         _setRoleAdmin(BUYER_ROLE, DEFAULT_ADMIN_ROLE);
@@ -137,7 +132,7 @@ contract Zkexchange is AccessControl {
         uint256 amountInCurrency,
         bytes32 currency,
         address token,
-        string memory bankNumber, string memory bankName
+        bytes memory signature
     ) external {
         require(_allowedTokens[token].status, "Invalid token");
         require(
@@ -170,8 +165,6 @@ contract Zkexchange is AccessControl {
         order.amountInToken = amountInToken;
         order.amountInCurrency = amountInCurrency;
         order.txStatus = _TransactionState.OPEN;
-        order.bankAccount = bankNumber;
-        order.bankName = bankName;
 
         emit SellOrderPlaced(
             nonce,
@@ -181,8 +174,7 @@ contract Zkexchange is AccessControl {
             currency,
             amountInToken,
             amountInCurrency,
-            bankNumber,
-            bankName
+            signature
         );
 
         _ordersCount++;
@@ -236,9 +228,7 @@ contract Zkexchange is AccessControl {
             "Order is not accepted"
         );
         order.txStatus = _TransactionState.COMPLETED;
-         emit completeOrderEvent(orderId);
         return uint256(order.txStatus);
-       
     }
 
     function adminReleaseFunds(uint256 orderId) external onlyManager {
