@@ -1,13 +1,13 @@
 import type { InputHTMLAttributes } from "react";
 
 type CustomHTMLInputElementProps = {
-  error: string;
+  // error: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const CustomInput = ({
   id,
   name,
-  error,
+  // error,
   value,
   className,
   ...props
@@ -21,7 +21,7 @@ const CustomInput = ({
         className={`w-full py-3 rounded-md flex items-center px-3 bg-[#EAF0F7] ${className}`}
         {...props}
       />
-      {error &&  <div className="text-red-900 text-sm">{error}</div>}
+      {/* {error &&  <div className="text-red-900 text-sm">{error}</div>} */}
     </div>
   );
 };

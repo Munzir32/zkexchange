@@ -180,12 +180,6 @@ const externalContracts = {
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "nonce",
-          "type": "uint256"
-        },
-        {
           "indexed": true,
           "internalType": "uint256",
           "name": "orderId",
@@ -205,9 +199,9 @@ const externalContracts = {
         },
         {
           "indexed": false,
-          "internalType": "bytes32",
+          "internalType": "string",
           "name": "currency",
-          "type": "bytes32"
+          "type": "string"
         },
         {
           "indexed": false,
@@ -220,12 +214,6 @@ const externalContracts = {
           "internalType": "uint256",
           "name": "amountInCurrency",
           "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "bytes",
-          "name": "signature",
-          "type": "bytes"
         }
       ],
       "name": "SellOrderPlaced",
@@ -319,9 +307,9 @@ const externalContracts = {
           "type": "address"
         },
         {
-          "internalType": "bytes32",
+          "internalType": "string",
           "name": "currency",
-          "type": "bytes32"
+          "type": "string"
         },
         {
           "internalType": "uint256",
@@ -385,9 +373,9 @@ const externalContracts = {
     {
       "inputs": [
         {
-          "internalType": "bytes32",
+          "internalType": "string",
           "name": "currency",
-          "type": "bytes32"
+          "type": "string"
         },
         {
           "internalType": "uint256",
@@ -525,9 +513,9 @@ const externalContracts = {
     {
       "inputs": [
         {
-          "internalType": "bytes32",
+          "internalType": "string",
           "name": "currency",
-          "type": "bytes32"
+          "type": "string"
         },
         {
           "internalType": "uint256",
@@ -643,11 +631,6 @@ const externalContracts = {
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "nonce",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "amountInToken",
           "type": "uint256"
         },
@@ -657,24 +640,19 @@ const externalContracts = {
           "type": "uint256"
         },
         {
-          "internalType": "bytes32",
+          "internalType": "string",
           "name": "currency",
-          "type": "bytes32"
+          "type": "string"
         },
         {
           "internalType": "address",
           "name": "token",
           "type": "address"
-        },
-        {
-          "internalType": "bytes",
-          "name": "signature",
-          "type": "bytes"
         }
       ],
       "name": "placeSellOrder",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -693,9 +671,9 @@ const externalContracts = {
     {
       "inputs": [
         {
-          "internalType": "bytes32",
+          "internalType": "string",
           "name": "currency",
-          "type": "bytes32"
+          "type": "string"
         }
       ],
       "name": "removeCurrency",

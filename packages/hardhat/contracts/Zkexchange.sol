@@ -44,7 +44,7 @@ contract Zkexchange is AccessControl {
     }
 
     mapping(address => TokenConfig) private _allowedTokens;
-    mapping(bytes32 => CurrencyConfig) private _allowedCurrencies;
+    mapping(string => CurrencyConfig) private _allowedCurrencies;
 
     struct Order {
         _TransactionState txStatus;
@@ -52,7 +52,7 @@ contract Zkexchange is AccessControl {
         address seller;
         address buyer;
         address token;
-        bytes32 currency;
+        string currency;
         uint256 amountInToken;
         uint256 amountInCurrency;
     }
@@ -62,14 +62,12 @@ contract Zkexchange is AccessControl {
     uint256 public _ordersCount;
 
     event SellOrderPlaced(
-        uint256 nonce,
         uint256 indexed orderId,
         address seller,
         address token,
-        bytes32 currency,
+        string currency,
         uint256 amountInToken,
-        uint256 amountInCurrency,
-        bytes signature
+        uint256 amountInCurrency
     );
 
     event OrderAccepted(uint256 indexed orderId, address buyer);
@@ -127,13 +125,11 @@ contract Zkexchange is AccessControl {
     }
 
     function placeSellOrder(
-        uint256 nonce,
         uint256 amountInToken,
         uint256 amountInCurrency,
-        bytes32 currency,
-        address token,
-        bytes memory signature
-    ) external {
+        string memory currency,
+        address token
+    ) external payable {
         require(_allowedTokens[token].status, "Invalid token");
         require(
             amountInToken > _allowedTokens[token].minOrder &&
@@ -149,32 +145,23 @@ contract Zkexchange is AccessControl {
         );
 
         
-        require(
-            IERC20(token).transferFrom(
-                msg.sender,
-                address(this),
-                amountInToken
-            ),
-            "Token transfer failed"
-        );
+        // require(IERC20(token).transferFrom(msg.sender, address(this), amountInToken), "Token transfer failed");
 
         Order storage order = _orders[_ordersCount];
         order.seller = msg.sender;
         order.token = token;
         order.currency = currency;
-        order.amountInToken = amountInToken;
+        order.amountInToken = msg.value;
         order.amountInCurrency = amountInCurrency;
         order.txStatus = _TransactionState.OPEN;
 
         emit SellOrderPlaced(
-            nonce,
             _ordersCount,
             msg.sender,
             token,
             currency,
             amountInToken,
-            amountInCurrency,
-            signature
+            amountInCurrency
         );
 
         _ordersCount++;
@@ -204,18 +191,9 @@ contract Zkexchange is AccessControl {
         );
                 uint256 adminFee = _calculateFee(order.amountInCurrency);
 
-        require(
-            IERC20(order.token).transfer(order.buyer, order.amountInToken - adminFee),
-            "Token transfer to buyer failed"
-        );
+        // require( IERC20(order.token).transfer(order.buyer, order.amountInToken - adminFee), "Token transfer to buyer failed");
 
-        require(
-            IERC20(order.token).transfer(
-                _feeCollectorAddress,
-                order.amountInCurrency - adminFee
-            ),
-            "Fee transfer failed"
-        );
+        require(IERC20(order.token).transfer(_feeCollectorAddress, order.amountInCurrency - adminFee ), "Fee transfer failed");
         order.txStatus = _TransactionState.RELEASE;
 
         emit FundsReleased(orderId, order.seller, order.amountInToken);
@@ -239,16 +217,23 @@ contract Zkexchange is AccessControl {
         );
           uint256 adminFee = (order.amountInToken *
             _allowedTokens[order.token].fee) / _feeDecimal;
-        require(
-            IERC20(order.token).transfer(order.buyer, order.amountInToken -adminFee),
-            "Token refund to buyer failed"
-        );
+        // require(
+        //     IERC20(order.token).transfer(order.buyer, order.amountInToken -adminFee),
+        //     "Token refund to buyer failed"
+        // );
+
+        uint amount = order.amountInToken - adminFee;
+
+        (bool sent, ) = order.buyer.call{value: amount}("");
+        require(sent, "Failed to send Ether");
 
       
-        require(
-            IERC20(order.token).transfer(_feeCollectorAddress, adminFee),
-            "Fee transfer failed"
-        );
+        // require(
+        //     IERC20(order.token).transfer(_feeCollectorAddress, adminFee),
+        //     "Fee transfer failed"
+        // );
+        (bool sentFee, ) = _feeCollectorAddress.call{value: adminFee}("");
+        require(sentFee, "Failed to send Ether");
 
         emit FundsReleased(orderId, order.buyer, order.amountInToken);
 
@@ -330,7 +315,7 @@ contract Zkexchange is AccessControl {
     }
 
     function addCurrency(
-        bytes32 currency,
+        string memory currency,
         uint256 fee,
         uint256 minOrder,
         uint256 maxOrder
@@ -348,7 +333,7 @@ contract Zkexchange is AccessControl {
     }
 
     function editCurrency(
-        bytes32 currency,
+        string memory currency,
         uint256 fee,
         uint256 minOrder,
         uint256 maxOrder
@@ -362,7 +347,7 @@ contract Zkexchange is AccessControl {
         );
     }
 
-    function removeCurrency(bytes32 currency) external onlyAdmin {
+    function removeCurrency(string memory currency) external onlyAdmin {
         require(_allowedCurrencies[currency].status, "Currency does not exist");
         delete _allowedCurrencies[currency];
     }
