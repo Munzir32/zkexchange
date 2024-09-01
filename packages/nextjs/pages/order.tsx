@@ -11,9 +11,16 @@ const Order = () => {
   const [amountInCon, setAmountInCon] = useState<any>('')
   const [currency, setCurrency] = useState<string>('')
   const [tokenAddress, settokenAddress] = useState<any>('')
+  const [loading, setLoading] = useState(false)
   const paymasterAddress = "0xBAb868Bfd8BB3e1B3Adaec62c69CE5DA6FEb3879"
   // const isFormFilled = amountInCon && amountInToken && currency && tokenAddress
 
+  const handleClear = () => {
+    setAmountInToken("")
+    setAmountInCon("")
+    settokenAddress("")
+    settokenAddress('')
+  }
 
 
 
@@ -29,19 +36,29 @@ const Order = () => {
       throw new Error("No account found. Please connect your wallet."); // Throw an error if no account is found
     }
 
-    await walletClient?.writeContract({
-      address: zkexchange.address,
-      abi: zkexchange.abi,
-      functionName: "placeSellOrder",
-      args: [amountInToken, amountInCon, currency, tokenAddress],
-      account,
-      paymaster: paymasterAddress,
-      paymasterInput: getGeneralPaymasterInput({
-        innerInput: new Uint8Array()
+    setLoading(false)
+    try {
+      await walletClient?.writeContract({
+        address: zkexchange.address,
+        abi: zkexchange.abi,
+        functionName: "placeSellOrder",
+        args: [amountInToken, amountInCon, currency, tokenAddress],
+        value: amountInToken,
+        account,
+        paymaster: paymasterAddress,
+        paymasterInput: getGeneralPaymasterInput({
+          innerInput: new Uint8Array()
+        })
       })
-    })
+      handleClear()
+      setLoading(false)
+    } catch (error) {
+      
+      console.log(error)
+      setLoading(false)
+    }
 
-
+    setLoading(false)
   }
 
   const placeorder = async (e: any) => {
@@ -122,7 +139,7 @@ const Order = () => {
             <option value="0x5A7d6b2F92C77FAD6CCaBd7EE0624E64907Eaf3E">Zksync</option>
           </select>
         </div>
-        <button type='submit' onClick={placeorder} className='btn mt-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg'>Order</button>
+        <button type='submit' onClick={placeorder} disabled={loading} className='btn mt-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg'>Order</button>
       </div>
 
     </div>
