@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import CustomInput from './CustomInput';
-
+import { zkexchange } from '~~/contracts/zkexchange';
+import { getGeneralPaymasterInput } from "viem/zksync";
+import { toast } from "react-toastify";
+import { walletClient } from "~~/utils/wagmi"
 
 const AddTokenModal = () => {
   const openModal = () => {
@@ -13,10 +16,58 @@ const AddTokenModal = () => {
   
 
   const [tokenAddress, settokenAddress] = useState("")
-  const [fee, setFee] = useState("")
-  const [min, setMin] = useState("")
-  const [max, setMax] = useState("")
+  const [fee, setFee] = useState<any>("")
+  const [min, setMin] = useState<any>("")
+  const [max, setMax] = useState<any>("")
   const isFormFilled = tokenAddress && fee && min && max
+
+  const paymasterAddress = "0xBAb868Bfd8BB3e1B3Adaec62c69CE5DA6FEb3879"
+  const handleToken = async () => {
+    // if (!isFormFilled) throw new Error("fill the form")
+
+    const [account] =
+      typeof window !== "undefined" && window.ethereum
+        ? await window.ethereum.request({ method: "eth_requestAccounts" }) // Request accounts if in a browser with Ethereum provider
+        : [];
+
+    if (!account) {
+      throw new Error("No account found. Please connect your wallet."); // Throw an error if no account is found
+    }
+
+    try {
+        await walletClient?.writeContract({
+            address: zkexchange.address,
+            abi: zkexchange.abi,
+            functionName: "addToken",
+            args: [tokenAddress, fee, min, max],
+            account,
+            paymaster: paymasterAddress,
+            paymasterInput: getGeneralPaymasterInput({
+              innerInput: new Uint8Array()
+            })
+          })
+    } catch (error) {
+        console.log(error)
+    }
+
+
+  }
+
+  const addToken = async (e: any) => {
+    e.preventDefault();
+    try {
+      await toast.promise(
+        handleToken(), {
+        pending: "Adding Token",
+        success: "Token added Successful",
+        error: "Unexpected Error"
+      }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <div>
@@ -27,7 +78,7 @@ const AddTokenModal = () => {
           <p className="py-4">Press ESC key or click the button below to close</p>
           <div className="modal-action">
             <form method="dialog">
-              {/* If there is a button in the form, it will close the modal */}
+              
               <CustomInput
               type="string"
               name="string"
@@ -58,8 +109,8 @@ const AddTokenModal = () => {
             />
 
 
-            <button disabled={!isFormFilled}>Add</button>
-              <button className="btn" >Close</button>
+            <button disabled={!isFormFilled} onClick={addToken}>Add </button>
+              <button className="btn mt-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg" >Close</button>
             </form>
           </div>
         </div>

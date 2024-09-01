@@ -25,13 +25,13 @@ import Layout from "~~/components/Layout"
 function App({ Component, pageProps }) {
   
   return (
-    <>
-      <body className="">
+    <html suppressHydrationWarning>
+   <body>
         <Layout>
         <Component {...pageProps} />
         </Layout>
-      </body>
-    </>
+        </body>
+       </html>
   );
 }
 
