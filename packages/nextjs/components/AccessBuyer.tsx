@@ -23,7 +23,7 @@ const AccessBuyer = () => {
     })
 
     console.log(buyer_role)
-    // 0x241ecf16d79d0f8dbfb92cbc07fe17840425976cf0667f022fe9877caa831b08
+    // 0xf8cd32ed93fc2f9fc78152a14807c9609af3d99c5fe4dc6b106a801aaddfe90e
 
 
 const handleClear = () => {
@@ -49,7 +49,7 @@ const handleClear = () => {
             throw new Error("No account found. Please connect your wallet."); // Throw an error if no account is found
         }
 
-        try {
+
             
             await walletClient?.writeContract({
                 address: zkexchange.address,
@@ -64,10 +64,7 @@ const handleClear = () => {
             })
             handleClear()
             setLoading(false)
-        } catch (error) {
-            setLoading(false)
-            console.error(error)
-        }
+        
 
 
     }

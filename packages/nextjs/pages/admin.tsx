@@ -3,6 +3,7 @@ import AddTokenModal from '~~/components/AddTokenModal'
 import AccessManager from '~~/components/AccessManager'
 import AccessBuyer from '~~/components/AccessBuyer'
 import { useAccount } from 'wagmi'
+import AddCurrency from '~~/components/AddCurrency'
 
 const Admin = () => {
 
@@ -13,9 +14,12 @@ const Admin = () => {
     <div>
       {address == "0xbE70b0cE9ecB7c0c4f0be93d8c329212a90BE112" ? 
       <>
+      <div className=' flex'>
       <AddTokenModal />
       <AccessManager />
       <AccessBuyer />
+      <AddCurrency />
+      </div>
       </>
     : (
       <p>Connect Admin wallet to contiue</p>

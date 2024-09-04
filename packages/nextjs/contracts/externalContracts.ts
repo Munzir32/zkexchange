@@ -12,7 +12,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
  * } as const;
  */
 const externalContracts = {
-  1: {
+  300: {
     Zkexchange: {
       address: "0x6C6dd09F2Ff6151aa432Bf2e685aaa824c3C8a1c",
       abi: [

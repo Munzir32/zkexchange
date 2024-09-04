@@ -5,9 +5,9 @@ import { getGeneralPaymasterInput } from "viem/zksync";
 import { toast } from "react-toastify";
 import { walletClient } from "~~/utils/wagmi"
 
-const AddTokenModal = () => {
+const Addcurrency = () => {
     const openModal = () => {
-        const modal = document.getElementById('my_modal_1') as HTMLDialogElement | null;
+        const modal = document.getElementById('my_modal_4') as HTMLDialogElement | null;
         if (modal) {
             modal.showModal();
         }
@@ -15,12 +15,12 @@ const AddTokenModal = () => {
 
 
 
-    const [tokenAddress, settokenAddress] = useState("")
+    const [currency, setCurrency] = useState<string>("")
     const [fee, setFee] = useState<any>("")
     const [min, setMin] = useState<any>("")
     const [max, setMax] = useState<any>("")
     const [loading, setLoading] = useState(false)
-    const isFormFilled = tokenAddress && fee && min && max
+    const isFormFilled = currency && fee && min && max
 
     const paymasterAddress = "0xBAb868Bfd8BB3e1B3Adaec62c69CE5DA6FEb3879"
     const handleToken = async () => {
@@ -35,11 +35,13 @@ const AddTokenModal = () => {
         if (!account) {
             throw new Error("No account found. Please connect your wallet."); // Throw an error if no account is found
         }
+
+       
             await walletClient?.writeContract({
                 address: zkexchange.address,
                 abi: zkexchange.abi,
-                functionName: "addToken",
-                args: [tokenAddress, fee, min, max],
+                functionName: "addCurrency",
+                args: [currency, fee, min, max],
                 account,
                 paymaster: paymasterAddress,
                 paymasterInput: getGeneralPaymasterInput({
@@ -73,19 +75,19 @@ const AddTokenModal = () => {
 
     return (
         <div>
-            <button className="btn" onClick={openModal}>Add Token</button>
-            <dialog id="my_modal_1" className="modal">
+            <button className="btn" onClick={openModal}>Add Currency</button>
+            <dialog id="my_modal_4" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Hello!</h3>
                     <p className="py-4">Press ESC key or click the button below to close</p>
                     <div className="" >
                         <form method="dialog">
-                        <label htmlFor="label" className=" text-lg mb-3 text-center font-bold p-10">Token Address</label>
+                        <label htmlFor="label" className=" text-lg mb-3 text-center font-bold p-10">Currency Symbol</label>
                             <CustomInput
                                 type="string"
                                 name="string"
                                 // required
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => settokenAddress(e.target.value)}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrency(e.target.value)}
                                 className="w-full py-3 rounded-md flex text-black items-center px-3 bg-[#EAF0F7]"
                             />
                             <label htmlFor="label" className=" text-lg mb-3 text-center font-bold p-10">Token Fee in USD</label>
@@ -128,4 +130,4 @@ const AddTokenModal = () => {
     );
 };
 
-export default AddTokenModal;
+export default Addcurrency;

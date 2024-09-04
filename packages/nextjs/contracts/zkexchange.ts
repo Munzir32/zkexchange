@@ -1,5 +1,5 @@
 export const zkexchange = {
-    address: "0x6C6dd09F2Ff6151aa432Bf2e685aaa824c3C8a1c",
+    address: "0x6852EBFa9afcCC33985a16e3316c9ad1b2281154",
       abi: [
     {
       "inputs": [

@@ -9,8 +9,8 @@ import { toast } from "react-toastify";
 const Order = () => {
   const [amountInToken, setAmountInToken] = useState<any>('')
   const [amountInCon, setAmountInCon] = useState<any>('')
-  const [currency, setCurrency] = useState<string>('')
-  const [tokenAddress, settokenAddress] = useState<any>('')
+  const [currency, setCurrency] = useState<string>('ngn')
+  const [tokenAddress, settokenAddress] = useState<any>('0x493257fD37EDB34451f62EDf8D2a0C418852bA4C')
   const [loading, setLoading] = useState(false)
   const paymasterAddress = "0xBAb868Bfd8BB3e1B3Adaec62c69CE5DA6FEb3879"
   // const isFormFilled = amountInCon && amountInToken && currency && tokenAddress
@@ -137,6 +137,9 @@ const Order = () => {
             <option value="0x493257fD37EDB34451f62EDf8D2a0C418852bA4C">USDT</option>
             <option value="0x1d17CBcF0D6D143135aE902365D2E5e2A16538D4">USDC</option>
             <option value="0x5A7d6b2F92C77FAD6CCaBd7EE0624E64907Eaf3E">Zksync</option>
+            <option value="0x5A7d6b2F92C77FAD6CCaBd7EE0624E64907Eaf3E">Zksync</option>
+            <option value="0x2E0319a0C40c6c918EC418DD3444352413cEba20">Zksync</option>
+
           </select>
         </div>
         <button type='submit' onClick={placeorder} disabled={loading} className='btn mt-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg'>Order</button>
