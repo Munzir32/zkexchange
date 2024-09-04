@@ -1,5 +1,7 @@
 import React from 'react';
 import Transaction from './Transaction';
+import { zkexchange } from '~~/contracts/zkexchange';
+import { useReadContract } from 'wagmi';
 // import { useScaffoldReadContract } from '~~/hooks/scaffold-eth';
 
 // Define the structure of your data
@@ -18,6 +20,28 @@ import Transaction from './Transaction';
 // }
 
 const Transactions = () => {
+
+  const {data: orederCount} = useReadContract({
+    address: zkexchange.address,
+    abi: zkexchange.abi,
+    functionName: "_ordersCount",
+    args: []
+})
+
+const Orderlen = orederCount ? Number(orederCount.toString()) : 0;
+
+const getOrderHistory = () => {
+  if (!Orderlen) return null;
+
+  const registerPartner = [];
+
+  for (let i = 0; i < Orderlen; i++){
+    registerPartner.push(
+      <Transaction id={i} key={i} />
+    )
+  }
+  return registerPartner;
+};
 
   
 
@@ -38,15 +62,7 @@ const Transactions = () => {
             </tr>
           </thead>
           <>
-            <Transaction 
-            // key={item.orderId} 
-            // currency={item.currency}
-            // amountInCurrency={item.amountInCurrency}
-            // amountInToken={item.amountInToken}
-            // orderId={item.orderId}
-            // token={item.token}
-            // seller={item.seller}  
-            />
+          {getOrderHistory()}
           
         
         </>
