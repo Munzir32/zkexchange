@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useAccount } from 'wagmi';
+// import { useAccount } from 'wagmi';
 import { GDAv1Forward } from "~~/contracts/GDAv1Forward"
 import { useWriteContract } from 'wagmi';
 import {toast} from 'react-toastify';
@@ -33,6 +33,8 @@ const PoolDistribution = () => {
              })
              const receipt = await result;
              const [success, poolAddress] = receipt.events.find(e => e.event === 'PoolCreated').args;
+             console.log(success);
+             
             setPoolAddress(poolAddress);
             toast.success(`Pool created successfully at ${poolAddress}`)
         } catch (error) {
