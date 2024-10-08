@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// import { useAccount } from 'wagmi';
 import { GDAv1Forward } from "~~/contracts/GDAv1Forward"
 import { useWriteContract } from 'wagmi';
 import {toast} from 'react-toastify';
@@ -7,7 +6,6 @@ import {toast} from 'react-toastify';
 
 const PoolDistribution = () => {
 
-    // const { address } = useAccount()
     const [tokenAddress, setTokenAddress] = useState('');
     const [adminAddress, setAdminAddress] = useState('');
     const [poolAddress, setPoolAddress] = useState('');
