@@ -36,7 +36,7 @@ const PoolDistribution = () => {
             setPoolAddress(poolAddress);
             toast.success(`Pool created successfully at ${poolAddress}`)
         } catch (error) {
-            
+            console.log(error)
         }
     }
 
