@@ -46,7 +46,7 @@ const Disconnectpool = () => {
           </div>
             <div>
            
-            <form action="" onSubmit={connectingpool}>
+            <form action="" onSubmit={disconnectingpool}>
             <input type="text" placeholder="Input pool address" onChange={(e) => setPoolAddress(e.target.value)} className="input input-bordered w-full max-w-xs" />
             <button className="btn">Button</button>
             </form>
