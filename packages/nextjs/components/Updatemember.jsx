@@ -37,10 +37,10 @@ const Updatemember = () => {
   return (
     <div>
 
-        <h3 className=' text-2xl'>Create Pool</h3>
+        <h3 className=' text-2xl'>Update Member</h3>
         <div>
           <div>
-            <p>Pool Address</p>
+            <p>Input members address and unit to attach to update member address</p>
             <p>{poolAddress}</p>
           </div>
             <div>
