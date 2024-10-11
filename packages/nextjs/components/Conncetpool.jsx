@@ -39,7 +39,7 @@ const Connectpool = () => {
         <h3 className=' text-2xl'>Reward Pool</h3>
         <div>
           <div>
-            <p>Input pool address</p>
+            <p>Input pool address to connect to the pool</p>
             <p>{poolAddress}</p>
           </div>
             <div>
