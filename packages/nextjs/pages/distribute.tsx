@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PoolDistribution from '~~/components/PoolDistribution'
 
 const Admin = () => {
 
@@ -13,7 +13,9 @@ const Admin = () => {
         <p>You can create pool to reward your audiences when they get rewards, suchs as gamers, quiz events and others.</p>
         <p>To get started</p>
 
-        
+        <div>
+          <PoolDistribution />
+        </div>
       </div>
     </div>
   )
