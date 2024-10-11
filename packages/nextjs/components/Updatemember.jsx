@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { GDAv1Forward } from "~~/contracts/GDAv1Forward"
 import { useWriteContract } from 'wagmi';
 import {toast} from 'react-toastify';
+import { etherUnits } from 'viem';
 
 
 const Updatemember = () => {
@@ -13,18 +14,38 @@ const Updatemember = () => {
 
     const { writeContract } = useWriteContract()
 
+    let provider;
+
+    if (typeof window !== "undefined" && window?.ethereum) {
+      provider = new ethers.providers.Web3Provider(window?.ethereum, "any")
+    }
+
   
     const handleUpdateMember = async () => {
-        
+      if (!provider) {
+        // setMessage('Please connect your wallet first.');
+        return;
+      }
+  
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(GDAv1ForwarderAddress, GDAv1Forward.abi, signer);
+        const gasLimit = ethers.utils.hexlify(1000000)
         try {
-            const result =  writeContract({ 
-                abi: GDAv1Forward.abi,
-                address: GDAv1Forward.address,
-                functionName: 'updateMemberUnits',
-                args: [
-                    poolAddress, memberAddress, newUnits, "0x"
-                ],
-             })
+            // const result =  writeContract({ 
+            //     abi: GDAv1Forward.abi,
+            //     address: GDAv1Forward.address,
+            //     functionName: 'updateMemberUnits',
+            //     args: [
+            //         poolAddress, memberAddress, newUnits, "0x"
+            //     ],
+            //  })
+
+
+            const tx = await contract.updateMemberUnits(poolAddress, addressMember, newUnits,  "0x", {
+              gasLimit: gasLimit,
+            });
+            const receipt = await tx.wait();
+            console.log(receipt)
              
             toast.success(`Member updated successfully`)
         } catch (error) {
